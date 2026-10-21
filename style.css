@@ -1,8 +1,188 @@
-html, body {
-  margin: 0;
-  padding: 0;
+/* 전체 색과 기본 글꼴을 포근한 기니피그 하우스 분위기로 설정 */
+:root {
+  color-scheme: light;
+  --ink: #3f382d;
+  --muted: #766d5c;
+  --green: #527454;
+  --green-dark: #35533d;
+  --cream: #fffaf0;
+  --paper: #fffdf8;
+  --peach: #f0b28e;
+  --line: #e9dfca;
 }
 
-canvas {
+/* 부드러운 배경과 중앙 정렬 */
+* {
+  box-sizing: border-box;
+}
+
+body.archive-page {
+  position: relative;
+  isolation: isolate;
+  width: min(100% - 40px, 860px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(72px, 12vh, 120px) clamp(4px, 4vw, 36px) 80px;
+  color: var(--ink);
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: var(--cream);
+}
+
+/* 모서리의 잔잔한 색 번짐으로 따뜻한 느낌을 더함 */
+body.archive-page::before,
+body.archive-page::after {
+  position: fixed;
+  z-index: -1;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+body.archive-page::before {
+  top: -110px;
+  right: -90px;
+  background: #f4e5c7;
+}
+
+body.archive-page::after {
+  bottom: -145px;
+  left: -110px;
+  background: #e3edda;
+}
+
+/* 제목은 작은 기니피그 이모지와 함께 큼직하게 표시 */
+.archive-title {
+  margin: 0;
+  color: var(--green-dark);
+  font-size: clamp(2rem, 5.5vw, 3.35rem);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 1.2;
+}
+
+.archive-title::before {
   display: block;
+  width: fit-content;
+  margin-bottom: 22px;
+  padding: 12px 16px;
+  border: 1px solid #e9d8b8;
+  border-radius: 20px;
+  background: #fff4dd;
+  content: "🐹";
+  font-size: 2rem;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+/* 소개 문구는 보조 정보처럼 차분하게 */
+.archive-intro {
+  margin: 18px 0 38px;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  letter-spacing: -0.025em;
+  line-height: 1.7;
+}
+
+/* 과제 링크를 넓은 카드 형태로 배치 */
+.assignment-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assignment-item {
+  min-width: 0;
+}
+
+.assignment-link {
+  position: relative;
+  display: flex;
+  min-height: 132px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 8px 22px rgb(92 75 45 / 5%);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+/* 카드마다 작은 풀잎 장식을 붙임 */
+.assignment-link::after {
+  flex: 0 0 auto;
+  color: var(--green);
+  content: "✿";
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.assignment-item:nth-child(2) .assignment-link::after {
+  color: #c67e5d;
+  content: "♡";
+}
+
+.assignment-link:hover,
+.assignment-link:focus-visible {
+  transform: translateY(-4px);
+  border-color: #b8c9ad;
+  box-shadow: 0 14px 30px rgb(75 97 61 / 12%);
+  outline: none;
+}
+
+.assignment-link:focus-visible {
+  outline: 3px solid #91aa83;
+  outline-offset: 3px;
+}
+
+/* 작은 화면에서는 카드와 여백을 한 열에 맞춤 */
+@media (max-width: 560px) {
+  body.archive-page {
+    width: min(100% - 28px, 420px);
+    padding-top: 64px;
+  }
+
+  .archive-title::before {
+    margin-bottom: 18px;
+  }
+
+  .archive-intro {
+    margin: 14px 0 28px;
+  }
+
+  .assignment-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .assignment-link {
+    min-height: 104px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+}
+
+/* 움직임 줄이기 설정을 사용하는 기기에서는 애니메이션을 줄임 */
+@media (prefers-reduced-motion: reduce) {
+  .assignment-link {
+    transition: none;
+  }
+
+  .assignment-link:hover,
+  .assignment-link:focus-visible {
+    transform: none;
+  }
 }
